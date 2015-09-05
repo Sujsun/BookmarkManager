@@ -3,8 +3,19 @@
 
     var itemCollection = new ItemCollection();
     window.c = itemCollection;
-    itemCollection.fetchByPath('/root');
 
-    var fileExplorerToolbarView = new FileExplorerToolbarView();
+    var addItemModalView = new AddItemModalView();
+
+    var itemListView = new ItemListView({
+        collection: itemCollection,
+    });
+
+    var fileExplorerToolbarView = new FileExplorerToolbarView({
+        test: 'test',
+    });
+
+    window.liv = itemListView;
+
+    itemListView.loadPath('/root');
 
 })(this, $ || jQuery);

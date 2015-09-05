@@ -65,3 +65,11 @@
     /* inline-block space fix */
     margin-right:-4px;
 }
+
+#add-item-modal .add-item-row {
+	padding: 10px 0px;
+}
+
+input.error {
+	border: 1px solid #FF0000;
+}

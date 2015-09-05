@@ -77,18 +77,18 @@ module.exports = app;
  * Sets the environment variables
  */
 function setEnvironmentVariables(app) {
-	var environment = app.get('env');
-	switch(environment) {
-		case 'production':
-			app.set('MongoDBUrl', 'mongodb://sundarasan:password@ds035613.mongolab.com:35613/sampledb');
-			break;
-		case 'development':
-			app.set('MongoDBUrl', 'mongodb://localhost/test');
-			break;
-		default:
-			console.error('Unknown environment. Environment value: ', environment);
-			break;
-	}
+    var environment = app.get('env');
+    switch (environment) {
+        case 'production':
+            app.set('MongoDBUrl', 'mongodb://sundarasan:password@ds035613.mongolab.com:35613/sampledb');
+            break;
+        case 'development':
+            app.set('MongoDBUrl', 'mongodb://localhost/test');
+            break;
+        default:
+            console.error('Unknown environment. Environment value: ', environment);
+            break;
+    }
 }
 
 module.exports = app;

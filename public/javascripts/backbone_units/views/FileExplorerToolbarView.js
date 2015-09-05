@@ -1,8 +1,6 @@
 var FileExplorerToolbarView = Backbone.View.extend({
 
-    el: '#file-explorer-toolbar-wrapper',
-
-    template: window.document.getElementById('file-explorer-toolbar-template'),
+    el: '#file-explorer-toolbar',
 
     $: {
         addItemModal: $('#add-item-modal'),
@@ -10,17 +8,28 @@ var FileExplorerToolbarView = Backbone.View.extend({
     },
 
     initialize: function() {
-        this.render();
+        return this.render();
     },
 
     render: function() {
-        var htmlString = Mustache.to_html(this.template.innerHTML);
-        this.$el.html(htmlString);
+        this.findElements();
+        return this;
     },
 
     events: {
         'click #add-item-btn': 'onAddItemButtonClick',
         'click #move-item-btn': 'onMoveItemButtonClick',
+        'click #go-to-path-btn': 'onGoClick',
+        'keypress #file-path-input': 'onFilePathInputKeypress',
+    },
+
+    findElements: function() {
+        this.$ || (this.$ = {});
+        this.$.goToPathInput = this.$el.find('input#file-path-input');
+    },
+
+    onGoClick: function(event) {
+        window.Backbone.trigger('loadpath', this.$.goToPathInput.val());
     },
 
     onAddItemButtonClick: function(event) {
@@ -29,6 +38,12 @@ var FileExplorerToolbarView = Backbone.View.extend({
 
     onMoveItemButtonClick: function(event) {
         this.$.moveItemModal.modal('show');
+    },
+
+    onFilePathInputKeypress: function(event) {
+        if (event.keyCode === 13) {
+            this.onGoClick(event);
+        }
     },
 
 });
