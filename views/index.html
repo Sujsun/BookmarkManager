@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Online Access</title>
+</head>
+<body>
+	
+	<div class="container-fluid">
+		<div class="row">
+			
+			<!-- File Explorer - Starts -->
+			<div id="file-explorer-main" class="file-explorer col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						
+						<!-- File Explorer Toolbar Wrapper - Starts -->
+						<div id="file-explorer-toolbar-wrapper" class="file-explorer-toolbar-wrapper">
+							
+						</div>
+						<!-- File Explorer Toolbar Wrapper - Ends -->
+
+						<!-- File Explorer Content - Starts -->
+						<div class="file-explorer-content row">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								
+								<ul class="file-explorer-ul">
+									
+									<!-- File Icon - Starts -->
+									<li>
+										<div class="file-item-wrapper" title="Google Products">
+											<div>
+												<img src="images/folder.png" class="file-icon-img"/>
+											</div>
+											<div class="file-item-name">
+												Google Products
+											</div>
+										</div>
+									</li>
+									<!-- File Icon - Ends -->
+
+									<!-- File Icon - Starts -->
+									<li>
+										<div class="file-item-wrapper" title="README.txt">
+											<div>
+												<img src="images/book-bookmark-icon.png" class="file-icon-img"/>
+											</div>
+											<div class="file-item-name">
+												README.txt
+											</div>
+										</div>
+									</li>
+									<!-- File Icon - Ends -->
+
+									<!-- File Icon - Starts -->
+									<li>
+										<div class="file-item-wrapper" title="README.txt">
+											<div>
+												<img src="images/book-bookmark-icon.png" class="file-icon-img"/>
+											</div>
+											<div class="file-item-name">
+												README.txt
+											</div>
+										</div>
+									</li>
+									<!-- File Icon - Ends -->
+
+								</ul>
+
+							</div>
+						</div>
+						<!-- File Explorer Content - Ends -->
+
+					</div>
+				</div>
+			</div>
+			<!-- File Explorer - Ends -->
+
+		</div>
+	</div>
+
+	<!-- Modal - Starts -->
+
+	<!-- Move Item Modal - Starts -->
+	<div class="move-item-modal modal fade" id="move-item-modal" tabindex="-1" role="dialog" aria-labelledby="move-item-modal">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                <span aria-hidden="true">
+	                &times;
+	                </span>
+	                </button>
+	                <h4 class="modal-title" id="myModalLabel">
+	                    Move README.md
+	                </h4>
+	            </div>
+	            <div class="modal-body">
+	                
+					<!-- File Explorer - Starts -->
+					<div id="file-explorer-main" class="file-explorer">
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								
+								<!-- File Explorer Toolbar - Starts -->
+								<div class="file-explorer-toolbar row">
+									
+									<div class="toolbar-section-1 toolbar-section col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="input-group">
+											<span class="input-group-btn">
+												<button class="btn btn-default" type="button"><i class="fa fa-arrow-left"></i></button>
+											</span>
+											<input type="text" class="file-path-input form-control" placeholder="Path...">
+											<span class="input-group-btn">
+												<button class="btn btn-default" type="button">Go</button>
+											</span>
+										</div>
+									</div>
+
+								</div>
+								<!-- File Explorer Toolbar - Ends -->
+								
+								<!-- File Explorer Content - Starts -->
+								<div class="file-explorer-content row">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										
+										<ul class="file-explorer-ul">
+											
+											<!-- File Icon - Starts -->
+											<li>
+												<div class="file-item-wrapper" title="Google Products">
+													<div>
+														<img src="images/folder.png" class="file-icon-img"/>
+													</div>
+													<div class="file-item-name">
+														Google Products
+													</div>
+												</div>
+											</li>
+											<!-- File Icon - Ends -->
+
+											<!-- File Icon - Starts -->
+											<li>
+												<div class="file-item-wrapper" title="README.txt">
+													<div>
+														<img src="images/book-bookmark-icon.png" class="file-icon-img"/>
+													</div>
+													<div class="file-item-name">
+														README.txt
+													</div>
+												</div>
+											</li>
+											<!-- File Icon - Ends -->
+
+											<!-- File Icon - Starts -->
+											<li>
+												<div class="file-item-wrapper" title="README.txt">
+													<div>
+														<img src="images/book-bookmark-icon.png" class="file-icon-img"/>
+													</div>
+													<div class="file-item-name">
+														README.txt
+													</div>
+												</div>
+											</li>
+											<!-- File Icon - Ends -->
+
+										</ul>
+
+									</div>
+								</div>
+								<!-- File Explorer Content - Ends -->
+
+							</div>
+						</div>
+					</div>
+					<!-- File Explorer - Ends -->
+
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">
+	                	Cancel
+	                </button>
+	                <button type="button" class="btn btn-primary">
+	                	Move here
+	                </button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- Move Item Modal - Ends -->
+
+	<!-- Add Item Modal - Starts -->
+	<div id="add-item-modal" class="add-item-modal modal fade" tabindex="-1" role="dialog" aria-labelledby="add-item-modal">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                <span aria-hidden="true">
+	                	&times;
+	                </span>
+	                </button>
+	                <h4 class="modal-title" id="add-item-modal-title">
+	                    Add
+	                </h4>
+	            </div>
+	            <div class="modal-body">
+	                
+					Add Item
+
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">
+	                	Cancel
+	                </button>
+	                <button type="button" class="btn btn-primary">
+	                	Add
+	                </button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- Add Item Modal - Ends -->
+
+	<!-- Modal - Ends -->
+
+	<!-- File Explorer Toolbar Template - Starts -->
+	<script id="file-explorer-toolbar-template" type="text/template">
+
+		<div id="file-explorer-toolbar" class="file-explorer-toolbar row">
+			
+			<div class="toolbar-section-1 toolbar-section col-lg-8 col-md-8 col-sm-8 col-xs-12">
+				<div class="input-group">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button"><i class="fa fa-arrow-left"></i></button>
+					</span>
+					<input type="text" class="file-path-input form-control" placeholder="Path...">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button">Go</button>
+					</span>
+				</div>
+			</div>
+
+			<div class="toolbar-section-2 toolbar-section col-lg-3 col-md-3 col-sm-3 col-xs-12">
+				
+				<div class="crud-btn-group btn-group ">
+					<button id="add-item-btn" type="button" class="btn btn-default" aria-label="Left Align">
+						<i class="fa fa-plus"></i>
+					</button>
+					<button id="remove-item-btn" type="button" class="btn btn-default" aria-label="Justify">
+						<i class="fa fa-minus"></i>
+					</button>
+				</div>
+
+				<button id="move-item-btn" type="button" class="single-btn btn btn-default">
+					<i class="fa fa-sign-in"></i>
+				</button>
+
+			</div>
+
+		</div>
+
+	</script>
+	<!-- File Explorer Toolbar Template - Ends -->
+
+
+	<!-- Scripts -->
+
+	<!-- Library Scripts -->
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.2/backbone-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.1.3/mustache.min.js"></script>
+
+	<!-- Application Scripts -->
+	<script src="javascripts/action.js"></script>
+
+	<!-- Backbone Units -->
+	<script src="javascripts/backbone_units/models/ItemModel.js"></script>
+	<script src="javascripts/backbone_units/collections/ItemCollection.js"></script>
+	<script src="javascripts/backbone_units/views/FileExplorerToolbarView.js"></script>
+
+	<script src="javascripts/app.js"></script>
+
+	<!-- CSS -->
+
+	<!-- Library CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet" href="stylesheets/application/FileExplorer.css">
+
+	<!-- Application CSS -->
+	
+</body>
+</html>

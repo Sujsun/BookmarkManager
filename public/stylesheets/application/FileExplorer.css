@@ -1,0 +1,67 @@
+.file-explorer .file-explorer-toolbar {
+	padding: 5px;
+	border-bottom: 1px solid #E2DEDE;
+}
+
+.file-explorer .file-explorer-toolbar .toolbar-section {
+	padding: 5px;
+}
+
+.file-explorer .file-explorer-toolbar .toolbar-section.toolbar-section-2.col-xs-12 {
+	float: right;
+}
+
+.file-explorer .file-explorer-toolbar .btn-group, .file-explorer .file-explorer-toolbar .single-btn {
+	margin-right: 10px;
+}
+
+.file-explorer .file-explorer-content {
+	padding: 20px 30px;
+}
+
+.file-explorer .file-explorer-content ul.file-explorer-ul {
+	padding-left: 5px;
+}
+
+.file-explorer .file-explorer-content ul.file-explorer-ul li {
+	display: inline-block;
+	list-style-type: none;
+	padding-right: 30px;
+	padding-bottom: 30px;
+}
+
+.file-explorer .file-explorer-content ul.file-explorer-ul li .file-item-wrapper {
+	height: 70px;
+	width: 55px;	
+}
+
+.file-explorer .file-explorer-content ul.file-explorer-ul li img.file-icon-img {
+	height: 50px;
+	width: 50px;
+}
+
+.file-explorer .file-explorer-content ul.file-explorer-ul li .file-item-wrapper .file-item-name {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+    overflow: hidden;
+	height: 20px;
+	width: 60px;
+}
+
+.move-item-modal .modal-body {
+	padding-top: 0px;
+}
+
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
