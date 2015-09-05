@@ -10,6 +10,15 @@ var mongoose = require('mongoose');
 var ItemRoutes = require('./app/routes/ItemRoutes');
 var ViewRoutes = require('./app/routes/ViewRoutes');
 
+var environment = 'production';
+
+var config = {
+    mongodbUrl: {
+        production: 'mongodb://<dbuser>:<dbpassword>@ds035613.mongolab.com:35613/sampledb',
+        development: 'mongodb://localhost/test',
+    }
+};
+
 var app = express();
 
 // view engine setup
@@ -64,7 +73,8 @@ app.use('/', ViewRoutes);
 // });
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/test');
+console.log('Environment: ', app.get('env'));
+mongoose.connect(config.mongodbUrl[app.get('env')]);
 module.exports = app;
 
 
