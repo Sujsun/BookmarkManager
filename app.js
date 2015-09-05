@@ -10,16 +10,9 @@ var mongoose = require('mongoose');
 var ItemRoutes = require('./app/routes/ItemRoutes');
 var ViewRoutes = require('./app/routes/ViewRoutes');
 
-var environment = 'production';
-
-var config = {
-    mongodbUrl: {
-        production: 'mongodb://<dbuser>:<dbpassword>@ds035613.mongolab.com:35613/sampledb',
-        development: 'mongodb://localhost/test',
-    }
-};
-
 var app = express();
+
+setEnvironmentVariables(app);
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -73,9 +66,29 @@ app.use('/', ViewRoutes);
 // });
 
 // Connect to MongoDB
-console.log('Environment: ', app.get('env'));
-mongoose.connect(config.mongodbUrl[app.get('env')]);
+mongoose.connect(app.get('MongoDBUrl'));
 module.exports = app;
 
+/**
+ * Helper methods
+ */
+
+/**
+ * Sets the environment variables
+ */
+function setEnvironmentVariables(app) {
+	var environment = app.get('env');
+	switch(environment) {
+		case 'production':
+			app.set('MongoDBUrl', 'mongodb://sundarasan:password@ds035613.mongolab.com:35613/sampledb');
+			break;
+		case 'development':
+			app.set('MongoDBUrl', 'mongodb://localhost/test');
+			break;
+		default:
+			console.error('Unknown environment. Environment value: ', environment);
+			break;
+	}
+}
 
 module.exports = app;
