@@ -22,6 +22,7 @@ var FileExplorerToolbarView = Backbone.View.extend({
     events: {
         'click #add-item-btn': 'onAddItemButtonClick',
         'click #move-item-btn': 'onMoveItemButtonClick',
+        'click #remove-item-btn': 'onRemoveItemButtonClick',
         'click #go-to-path-btn': 'onGoClick',
         'keypress #file-path-input': 'onFilePathInputKeypress',
     },
@@ -54,8 +55,23 @@ var FileExplorerToolbarView = Backbone.View.extend({
     },
 
     onMoveItemButtonClick: function(event) {
-        this.$child.moveItemModal.modal('show');
-        window.Backbone.trigger('change:' + 'move' + 'currentpath', '/root');
+        var selectedItemCollection = Backbone.browseItemListView.getSelected();
+        if (selectedItemCollection.length) {
+            if (selectedItemCollection.isAllBookmark()) {
+                this.$child.moveItemModal.modal('show');
+                window.Backbone.trigger('change:' + 'move' + 'currentpath', '/root');
+            } else {
+                $.notify('Folder cannot be moved', {
+                    autoHideDelay: 3 * 1000,
+                    className: 'warn',
+                });
+            }
+        } else {
+            $.notify('Select file(s) to move', {
+                autoHideDelay: 3 * 1000,
+                className: 'warn',
+            });
+        }
     },
 
     onFilePathInputKeypress: function(event) {
@@ -67,6 +83,23 @@ var FileExplorerToolbarView = Backbone.View.extend({
     onCurrentPathChange: function(path) {
         this.currentPath = path;
         this.$child.goToPathInput.val(this.currentPath);
+    },
+
+    onRemoveItemButtonClick: function() {
+        var selectedItemCollection = Backbone.browseItemListView.getSelected();
+        if (selectedItemCollection.length) {
+            selectedItemCollection.deleteAll().done(function() {
+                $.notify('Deleted successfully', {
+                    autoHideDelay: 2 * 1000,
+                    className: 'success',
+                });
+            });
+        } else {
+            $.notify('Select file(s) to delete', {
+                autoHideDelay: 3 * 1000,
+                className: 'warn',
+            });
+        }
     },
 
     /**

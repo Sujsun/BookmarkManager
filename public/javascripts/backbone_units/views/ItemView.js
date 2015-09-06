@@ -44,6 +44,13 @@ var ItemView = Backbone.View.extend({
         window.Backbone.on('change:selectmode', function() {
             self.onSelectModeChange.apply(self, arguments);
         });
+        this.$child.fileItemWrapper.tooltip({
+            html: true,
+            placement: 'bottom',
+            title: function() {
+                return self.model.get('name') + '<br>Created: ' + self.model.get('createdDateReadable');
+            },
+        });
     },
 
     /**
@@ -74,7 +81,7 @@ var ItemView = Backbone.View.extend({
         }
     },
 
-    onSelectModeChangeeChange: function(selectMode) {
+    onSelectModeChange: function(selectMode) {
         this.currentSelectMode = selectMode;
     },
 

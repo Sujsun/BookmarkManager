@@ -10,6 +10,9 @@ var ItemModel = Backbone.Model.extend({
 
     initialize: function() {
         this.set('icon', this.getIcon());
+        if (this.get('created')) {
+            this.set('createdDateReadable', window.moment(this.get('created')).format('MMM D, YYYY'));
+        }
     },
 
     move: function(path) {

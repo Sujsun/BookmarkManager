@@ -23,6 +23,10 @@ var ItemCollection = Backbone.Collection.extend({
         });
     },
 
+    deleteAll: function() {
+        return this.deleteModels(this.models);
+    },
+
     update: function(models, updateAttr) {
         var options = {},
             deferred = $.Deferred(),
@@ -40,6 +44,26 @@ var ItemCollection = Backbone.Collection.extend({
         $.ajax(options).done(function() {
             self.updateModels(models, updateAttr);
             deferred.resolve(models);
+        });
+        return deferred;
+    },
+
+    deleteModels: function(models) {
+        var options = {},
+            deferred = $.Deferred(),
+            collection = new ItemCollection(models),
+            self = this;
+        options.url = this.url;
+        options.contentType = 'application/json';
+        options.type = 'delete';
+        options.dataType = 'json';
+        options.data = collection.toJSON();
+        options.data = window.JSON.stringify(options.data);
+        $.ajax(options).done(function() {
+            for (var index in models) {
+                models[index].destroy();
+            }
+            deferred.resolve();
         });
         return deferred;
     },

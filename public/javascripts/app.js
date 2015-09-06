@@ -15,6 +15,8 @@
         type: 'browse',
     });
 
+    window.Backbone.browseItemListView = itemListView;
+
     var fileExplorerToolbarView = new FileExplorerToolbarView({
         type: 'browse',
     });
@@ -34,7 +36,7 @@
         type: 'move',
     });
 
-    window.liv = itemListView;
+    var moveItemModalView = new MoveItemModalView();
 
     window.Backbone.trigger('change:' + 'browse' + 'currentpath', '/root');
 

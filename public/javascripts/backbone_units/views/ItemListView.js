@@ -4,6 +4,7 @@ var ItemListView = Backbone.View.extend({
 
     initialize: function(options) {
         this.options = options;
+        this.currentPath = '/root';
         _.defaults(this.options, {
             type: 'browse',
         });
@@ -33,6 +34,12 @@ var ItemListView = Backbone.View.extend({
         this.collection.on('add', function() {
             self.onModelAdd.apply(self, arguments);
         });
+        this.collection.on('remove', function() {
+            self.onModelRemove.apply(self, arguments);
+        });
+        this.collection.on('change:path', function() {
+            self.onItemModelPathChange.apply(self, arguments);
+        })
         window.Backbone.on('change:' + this.options.type + 'currentpath', function() {
             self.onCurrentPathChange.apply(self, arguments);
         });
@@ -55,6 +62,12 @@ var ItemListView = Backbone.View.extend({
         }
     },
 
+    onModelRemove: function(model) {
+        if (model.get('path') === this.currentPath) {
+            this.removeItem(model.get('_id'));
+        }
+    },
+
     onCurrentPathChange: function(path) {
         this.currentPath = path;
         this.loadPath(path);
@@ -68,6 +81,14 @@ var ItemListView = Backbone.View.extend({
         }
         if (!Object.keys(this.selectedItemViews).length) {
             window.Backbone.trigger('change:selectmode', 'single');
+        }
+    },
+
+    onItemModelPathChange: function(model) {
+        if (model.get('path') === this.currentPath) {
+            this.appendItem(model.get('_id'));
+        } else {
+            this.removeItem(model.get('_id'));
         }
     },
 
@@ -117,7 +138,14 @@ var ItemListView = Backbone.View.extend({
     },
 
     removeItem: function(_id) {
-        this.itemViews[_id] && this.itemViews[_id].remove();
+        var itemView = this.itemViews[_id];
+        if (itemView) {
+            itemView.remove();
+            if (itemView.isSelected) {
+                this.onItemViewSelectChange(false, itemView);
+                delete this.selectedItemViews[_id];
+            }
+        }
         delete this.itemViews[_id];
     },
 
