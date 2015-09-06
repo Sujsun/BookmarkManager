@@ -1,6 +1,9 @@
+var count = 0;
 var ItemView = Backbone.View.extend({
 
     tagName: 'li',
+
+    isSelected: false,
 
     id: function() {
         return this.model.get('_id');
@@ -10,33 +13,140 @@ var ItemView = Backbone.View.extend({
 
     template: window.document.getElementById('file-item-template'),
 
-    initialize: function() {
+    currentSelectMode: 'single',
+
+    initialize: function(options) {
+        this.options = options || {};
+        _.defaults(this.options, {
+            type: 'browse'
+        });
+        this.setType(this.options.type);
         return this;
     },
 
     render: function() {
         var htmlString = Mustache.to_html(this.template.innerHTML, this.model.toJSON());
         $(this.el).html(htmlString, this.model.toJSON());
+        this.findElements();
+        this.attachEvents();
         return this;
     },
 
-    events: {},
+    events: {
+        'click #file-item-wrapper': 'onIconClick',
+    },
+
+    attachEvents: function() {
+        var self = this;
+        this.$child.fileItemWrapper.click('500', function() {
+            self.onIconLongClick.apply(self, arguments);
+        });
+        window.Backbone.on('change:selectmode', function() {
+            self.onSelectModeChange.apply(self, arguments);
+        });
+    },
 
     /**
      * Finds the elements from the DOM
      */
     findElements: function() {
-        this.$ || (this.$ = {});
+        this.$child || (this.$child = {});
+        this.$child.fileItemWrapper = this.$el.find('#file-item-wrapper');
     },
 
     /**
      * Event Handlers
      */
+    onIconClick: function() {
+        switch (this.currentSelectMode) {
+            case 'single':
+                this.open();
+                break;
+            case 'multiple':
+                this.toggleSelect();
+                break;
+        }
+    },
 
+    onIconLongClick: function(event) {
+        if (this.options.enableSelect) {
+            this.toggleSelect();
+        }
+    },
+
+    onSelectModeChangeeChange: function(selectMode) {
+        this.currentSelectMode = selectMode;
+    },
 
     /**
      * Helpers
      */
+    open: function() {
+        switch (this.model.get('type')) {
+            case 'folder':
+                if (this.options.enableFolderOpen) {
+                    window.Backbone.trigger('change:' + this.options.type + 'currentpath', this.model.get('path') + '/' + this.model.get('name'));
+                }
+                break;
+            case 'bookmark':
+                if (this.options.enableFileOpen) {
+                    this.openNewTab(this.model.get('content'));
+                }
+                break;
+            default:
+                this.$child.fileItemWrapper.notify('Cannot open this file', {
+                    autoHideDelay: 3 * 1000,
+                    className: 'error',
+                });
+                throw new Error({
+                    name: 'Unsupported Format',
+                    message: 'Unknown file format',
+                });
+        }
+    },
 
+    toggleSelect: function() {
+        if (!this.isSelected) {
+            this.select();
+        } else {
+            this.unselect();
+        }
+    },
+
+    select: function() {
+        this.isSelected = true;
+        this.$child.fileItemWrapper.addClass('selected');
+        this.trigger('change:select', this.isSelected, this);
+        if (this.currentSelectMode !== 'multiple') {
+            window.Backbone.trigger('change:selectmode', 'multiple');
+        }
+    },
+
+    unselect: function() {
+        this.isSelected = false;
+        this.$child.fileItemWrapper.removeClass('selected');
+        this.trigger('change:select', this.isSelected, this);
+    },
+
+    setType: function(type) {
+        switch (type) {
+            case 'browse':
+                this.options.enableFolderOpen = true;
+                this.options.enableFileOpen = true;
+                this.options.enableSelect = true;
+                break;
+            case 'move':
+                this.options.enableFolderOpen = true;
+                this.options.enableFileOpen = false;
+                this.options.enableSelect = true;
+                break;
+        }
+    },
+
+    openNewTab: function(url) {
+        var windowObject = window.open(url, '_blank');
+        windowObject.focus();
+        return window;
+    },
 
 });

@@ -33,6 +33,17 @@
 .file-explorer .file-explorer-content ul.file-explorer-ul li .file-item-wrapper {
 	height: 70px;
 	width: 55px;	
+	cursor: pointer;
+}
+
+.file-explorer .file-explorer-content ul.file-explorer-ul li .file-item-wrapper.selected .file-item-overlay {
+    height: 80px;
+    width: 70px;
+    position: absolute;
+    background-color: rgba(0, 137, 255, 0.38);
+    margin-top: -76px;
+    margin-left: -7px;
+    border-radius: 5px;
 }
 
 .file-explorer .file-explorer-content ul.file-explorer-ul li img.file-icon-img {
@@ -46,6 +57,8 @@
     overflow: hidden;
 	height: 20px;
 	width: 60px;
+	text-align: center;
+	margin-left: -5px;
 }
 
 .move-item-modal .modal-body {

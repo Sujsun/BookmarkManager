@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Online Access</title>
+	<title>Bookmark Manager</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 	
@@ -16,7 +19,7 @@
 						<!-- File Explorer Toolbar - Starts -->
 						<div id="file-explorer-toolbar" class="file-explorer-toolbar row">
 		
-							<div class="toolbar-section-1 toolbar-section col-lg-8 col-md-8 col-sm-8 col-xs-12">
+							<div id="toolbar-section-1" class="toolbar-section-1 toolbar-section col-lg-8 col-md-8 col-sm-8 col-xs-12">
 								<div class="input-group">
 									<span class="input-group-btn">
 										<button class="btn btn-default" type="button"><i class="fa fa-arrow-left"></i></button>
@@ -28,7 +31,7 @@
 								</div>
 							</div>
 
-							<div class="toolbar-section-2 toolbar-section col-lg-3 col-md-3 col-sm-3 col-xs-12">
+							<div id="toolbar-section-2" class="toolbar-section-2 toolbar-section col-lg-3 col-md-3 col-sm-3 col-xs-12">
 								
 								<div class="crud-btn-group btn-group ">
 									<button id="add-item-btn" type="button" class="btn btn-default" aria-label="Left Align">
@@ -71,7 +74,7 @@
 	<!-- Modal - Starts -->
 
 	<!-- Move Item Modal - Starts -->
-	<div class="move-item-modal modal fade" id="move-item-modal" tabindex="-1" role="dialog" aria-labelledby="move-item-modal">
+	<div id="move-item-modal" class="move-item-modal modal fade" id="move-item-modal" tabindex="-1" role="dialog" aria-labelledby="move-item-modal">
 	    <div class="modal-dialog" role="document">
 	        <div class="modal-content">
 	            <div class="modal-header">
@@ -87,21 +90,21 @@
 	            <div class="modal-body">
 	                
 					<!-- File Explorer - Starts -->
-					<div id="file-explorer-main" class="file-explorer">
+					<div id="file-explorer-move" class="file-explorer">
 						<div class="row">
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								
 								<!-- File Explorer Toolbar - Starts -->
-								<div class="file-explorer-toolbar row">
+								<div id="file-explorer-toolbar" class="file-explorer-toolbar row">
 									
-									<div class="toolbar-section-1 toolbar-section col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div id="toolbar-section-1" class="toolbar-section-1 toolbar-section col-lg-8 col-md-8 col-sm-8 col-xs-12">
 										<div class="input-group">
 											<span class="input-group-btn">
 												<button class="btn btn-default" type="button"><i class="fa fa-arrow-left"></i></button>
 											</span>
-											<input type="text" class="file-path-input form-control" placeholder="Path...">
+											<input id="file-path-input" type="text" class="file-path-input form-control" placeholder="Path..." value="/root"/>
 											<span class="input-group-btn">
-												<button class="btn btn-default" type="button">Go</button>
+												<button id="go-to-path-btn" class="go-to-path-btn btn btn-default" type="button">Go</button>
 											</span>
 										</div>
 									</div>
@@ -113,47 +116,8 @@
 								<div class="file-explorer-content row">
 									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 										
-										<ul id="ile-explorer-ul" class="file-explorer-ul">
+										<ul id="file-explorer-ul" class="file-explorer-ul">
 											
-											<!-- File Icon - Starts -->
-											<li>
-												<div class="file-item-wrapper" title="Google Products">
-													<div>
-														<img src="images/folder.png" class="file-icon-img"/>
-													</div>
-													<div class="file-item-name">
-														Google Products
-													</div>
-												</div>
-											</li>
-											<!-- File Icon - Ends -->
-
-											<!-- File Icon - Starts -->
-											<li>
-												<div class="file-item-wrapper" title="README.txt">
-													<div>
-														<img src="images/book-bookmark-icon.png" class="file-icon-img"/>
-													</div>
-													<div class="file-item-name">
-														README.txt
-													</div>
-												</div>
-											</li>
-											<!-- File Icon - Ends -->
-
-											<!-- File Icon - Starts -->
-											<li>
-												<div class="file-item-wrapper" title="README.txt">
-													<div>
-														<img src="images/book-bookmark-icon.png" class="file-icon-img"/>
-													</div>
-													<div class="file-item-name">
-														README.txt
-													</div>
-												</div>
-											</li>
-											<!-- File Icon - Ends -->
-
 										</ul>
 
 									</div>
@@ -240,13 +204,14 @@
 
 	<!-- File Item Template - Starts -->
 	<script id="file-item-template" type="text/template">
-		<div class="file-item-wrapper" title="{{name}}">
+		<div id="file-item-wrapper" class="file-item-wrapper" title="{{name}}">
 			<div>
 				<img id="file-icon-img" src="{{icon}}" alt="No icon" class="file-icon-img"/>
 			</div>
 			<div id="file-item-name" class="file-item-name">
 				{{name}}
 			</div>
+			<div id="file-item-overlay" class="file-item-overlay"></div>
 		</div>
 	</script>
 	<!-- Item Template - Starts -->
@@ -261,6 +226,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.2/backbone-min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.1.3/mustache.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="javascripts/library/jquery.longclick.js"></script>
 	<script src="javascripts/library/notify.min.js"></script>
 
 	<!-- Application Scripts -->

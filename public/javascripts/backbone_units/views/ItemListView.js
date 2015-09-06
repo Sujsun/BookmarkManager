@@ -1,12 +1,17 @@
 var ItemListView = Backbone.View.extend({
 
-    el: 'ul#file-explorer-ul',
+    el: '#file-explorer-main ul#file-explorer-ul',
 
-    itemViews: {},
-
-    initialize: function() {
+    initialize: function(options) {
+        this.options = options;
+        _.defaults(this.options, {
+            type: 'browse',
+        });
+        this.itemViews = {};
         return this.render();
     },
+
+    selectedItemViews: {},
 
     render: function() {
         this.findElements();
@@ -20,33 +25,61 @@ var ItemListView = Backbone.View.extend({
      * Finds the elements from the DOM
      */
     findElements: function() {
-        this.$ || (this.$ = {});
+        this.$child || (this.$child = {});
     },
 
     attachEvents: function() {
         var self = this;
-        window.Backbone.on('loadpath', function() {
-            self.loadPath.apply(self, arguments);
+        this.collection.on('add', function() {
+            self.onModelAdd.apply(self, arguments);
+        });
+        window.Backbone.on('change:' + this.options.type + 'currentpath', function() {
+            self.onCurrentPathChange.apply(self, arguments);
+        });
+    },
+
+    attachItemViewEvents: function(itemView) {
+        var self = this;
+        itemView.on('change:select', function() {
+            self.onItemViewSelectChange.apply(self, arguments);
         });
     },
 
     /**
      * Event Handlers
      */
+    onModelAdd: function(model) {
+        var self = this;
+        if (model.get('path') === this.currentPath) {
+            this.appendItem(model);
+        }
+    },
 
+    onCurrentPathChange: function(path) {
+        this.currentPath = path;
+        this.loadPath(path);
+    },
+
+    onItemViewSelectChange: function(selectFlag, itemView) {
+        if (selectFlag) {
+            this.selectedItemViews[itemView.model.get('_id')] = itemView;
+        } else {
+            delete this.selectedItemViews[itemView.model.get('_id')];
+        }
+        if (!Object.keys(this.selectedItemViews).length) {
+            window.Backbone.trigger('change:selectmode', 'single');
+        }
+    },
 
     /**
      * Helpers
      */
     loadPath: function(path) {
         var self = this;
-        self.removeAll();
+        self.reset();
         self.collection.reset();
         self.collection.fetchByPath(path).done(function(models) {
-            var models = self.collection.where({
-                path: path
-            });
-            self.appendItems(models);
+            console.log('Loaded path: ', path);
         }).fail(function(data) {
             $.notify('Failed to load. ' + (data.message || ''), {
                 autoHideDelay: 2 * 1000,
@@ -72,17 +105,39 @@ var ItemListView = Backbone.View.extend({
     },
 
     appendItem: function(model) {
+        var self = this;
         var itemView = new ItemView({
-            model: model
+            model: model,
+            type: self.options.type,
         });
         this.itemViews[model.get('_id')] = itemView;
         this.$el.append(itemView.render().el);
+        this.attachItemViewEvents(itemView);
         return this;
     },
 
     removeItem: function(_id) {
         this.itemViews[_id] && this.itemViews[_id].remove();
         delete this.itemViews[_id];
+    },
+
+    reset: function() {
+        this.removeAll();
+        this.selectedItemViews = {};
+    },
+
+    getSelected: function() {
+        var selectedItemModels = [];
+        for (var key in this.selectedItemViews) {
+            var selectedItemView = this.selectedItemViews[key];
+            selectedItemModels.push(selectedItemView.model);
+        }
+        var selectedItemCollection = new ItemCollection(selectedItemModels);
+        return selectedItemCollection;
+    },
+
+    move: function() {
+
     },
 
 });

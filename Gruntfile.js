@@ -21,7 +21,7 @@ module.exports = function(grunt) {
         //     }
         // },
         jsbeautifier: {
-            files: ['**/*.js', '!node_modules/**/*.js'],
+            files: ['**/*.js', '!node_modules/**/*.js', '!public/javascripts/library/*.js'],
         },
         mochacli: {
             all: ['test/**/*.js'],
