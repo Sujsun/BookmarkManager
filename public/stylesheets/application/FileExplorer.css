@@ -1,5 +1,5 @@
 .file-explorer .file-explorer-toolbar {
-	padding: 5px;
+	padding: 10px 5px;
 	border-bottom: 1px solid #E2DEDE;
 }
 
@@ -85,4 +85,24 @@
 
 input.error {
 	border: 1px solid #FF0000;
+}
+
+.header {
+	border-bottom: 1px solid #E2DEDE;
+}
+
+.header .bookmark-logo-img {
+	position: absolute;
+    width: 33px;
+    margin: 11px 16px;
+}
+
+.header h2 {
+	font-size: 20px;
+    margin: 15px;
+    color: #1ABC9C;
+    padding-left: 35px;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.08);
+    letter-spacing: 0.4px;
+    font-weight: normal;
 }
