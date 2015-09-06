@@ -66,7 +66,15 @@ var FileExplorerToolbarView = Backbone.View.extend({
     },
 
     onGoBackClick: function(event) {
-        window.Backbone.bookmarkRouter.goBack();
+        switch (this.options.type) {
+            case 'browse':
+                window.Backbone.bookmarkRouter.goBack();
+                break;
+            case 'move':
+                var urlToNavigate = window.Backbone.bookmarkRouter.removeLastDirFromUrl(this.$child.goToPathInput.val());
+                window.Backbone.trigger('change:' + this.options.type + 'currentpath', urlToNavigate);
+                break;
+        }
     },
 
     onAddItemButtonClick: function(event) {

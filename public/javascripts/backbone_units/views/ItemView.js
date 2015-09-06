@@ -66,13 +66,10 @@ var ItemView = Backbone.View.extend({
      * Event Handlers
      */
     onIconClick: function() {
-        switch (window.Backbone.bookmarkRouter.view.browseItemListView.selectMode) {
-            case 'single':
-                this.open();
-                break;
-            case 'multiple':
-                this.toggleSelect();
-                break;
+        if (window.Backbone.bookmarkRouter.view.browseItemListView.selectMode === 'multiple' && this.options.enableSelect) {
+            this.toggleSelect();
+        } else {
+            this.open();
         }
     },
 
@@ -155,7 +152,7 @@ var ItemView = Backbone.View.extend({
             case 'move':
                 this.options.enableFolderOpen = true;
                 this.options.enableFileOpen = false;
-                this.options.enableSelect = true;
+                this.options.enableSelect = false;
                 break;
         }
     },
