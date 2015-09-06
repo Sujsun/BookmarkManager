@@ -8,6 +8,7 @@ var ItemListView = Backbone.View.extend({
         _.defaults(this.options, {
             type: 'browse',
         });
+        this.selectMode = 'single';
         this.itemViews = {};
         return this.render();
     },
