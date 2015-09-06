@@ -99,13 +99,13 @@ var ItemModel = Backbone.Model.extend({
         var iconUrl;
         switch (this.get('type')) {
             case 'folder':
-                iconUrl = 'images/folder.png';
+                iconUrl = 'images/folder-medium.png';
                 break;
             case 'bookmark':
-                iconUrl = 'images/book-bookmark-icon.png';
+                iconUrl = 'images/bookmark-icon-medium.png';
                 break;
             default:
-                iconUrl = 'images/unknown-file-icon.jpg';
+                iconUrl = 'images/unknown-file-icon-medium.png';
         }
         return iconUrl;
     },
