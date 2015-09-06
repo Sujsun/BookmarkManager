@@ -30,11 +30,11 @@
 							<div id="toolbar-section-1" class="toolbar-section-1 toolbar-section col-lg-8 col-md-8 col-sm-8 col-xs-12">
 								<div class="input-group">
 									<span class="input-group-btn">
-										<button class="btn btn-default" type="button"><i class="fa fa-arrow-left"></i></button>
+										<button id="go-back-btn" class="go-back-btn btn btn-default" type="button" data-toggle="tooltip" data-placement="bottom" title="Back"><i class="fa fa-arrow-left"></i></button>
 									</span>
 									<input id="file-path-input" type="text" class="file-path-input form-control" placeholder="Path..." value="/root"/>
 									<span class="input-group-btn">
-										<button id="go-to-path-btn" class="go-to-path-btn btn btn-default" type="button">Go</button>
+										<button id="go-to-path-btn" class="go-to-path-btn btn btn-default" type="button" data-toggle="tooltip" data-placement="bottom" title="Go">Go</button>
 									</span>
 								</div>
 							</div>
@@ -42,15 +42,15 @@
 							<div id="toolbar-section-2" class="toolbar-section-2 toolbar-section col-lg-3 col-md-3 col-sm-3 col-xs-12">
 								
 								<div class="crud-btn-group btn-group ">
-									<button id="add-item-btn" type="button" class="btn btn-default" aria-label="Left Align">
+									<button id="add-item-btn" type="button" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" title="Add">
 										<i class="fa fa-plus"></i>
 									</button>
-									<button id="remove-item-btn" type="button" class="btn btn-default" aria-label="Justify">
+									<button id="remove-item-btn" type="button" class="btn btn-default" aria-label="Right Align" data-toggle="tooltip" data-placement="bottom" title="Remove">
 										<i class="fa fa-minus"></i>
 									</button>
 								</div>
 
-								<button id="move-item-btn" type="button" class="single-btn btn btn-default">
+								<button id="move-item-btn" type="button" class="single-btn btn btn-default" type="button" data-toggle="tooltip" data-placement="bottom" title="Move">
 									<i class="fa fa-sign-in"></i>
 								</button>
 
@@ -234,9 +234,9 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.2/backbone-min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.1.3/mustache.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<script src="javascripts/library/jquery.longclick.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 	<script src="javascripts/library/notify.min.js"></script>
+	<script src="javascripts/library/jquery.mobile.custom.min.js"></script>
 
 	<!-- Application Scripts -->
 	<script src="javascripts/action.js"></script>

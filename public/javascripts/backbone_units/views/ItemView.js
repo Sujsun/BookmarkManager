@@ -33,14 +33,12 @@ var ItemView = Backbone.View.extend({
     },
 
     events: {
-        'click #file-item-wrapper': 'onIconClick',
+        'tap #file-item-wrapper': 'onIconClick',
+        'taphold #file-item-wrapper': 'onIconLongClick',
     },
 
     attachEvents: function() {
         var self = this;
-        this.$child.fileItemWrapper.click('500', function() {
-            self.onIconLongClick.apply(self, arguments);
-        });
         window.Backbone.on('change:selectmode', function() {
             self.onSelectModeChange.apply(self, arguments);
         });

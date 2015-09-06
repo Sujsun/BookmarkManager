@@ -24,11 +24,17 @@ var FileExplorerToolbarView = Backbone.View.extend({
         'click #move-item-btn': 'onMoveItemButtonClick',
         'click #remove-item-btn': 'onRemoveItemButtonClick',
         'click #go-to-path-btn': 'onGoClick',
+        'click #go-back-btn': 'onGoBackClick',
         'keypress #file-path-input': 'onFilePathInputKeypress',
     },
 
     attachEvents: function() {
         var self = this;
+        this.$child.goBackButton.tooltip();
+        this.$child.goToPathButton.tooltip();
+        this.$child.addItemButton.tooltip();
+        this.$child.removeItemButton.tooltip();
+        this.$child.moveItemButton.tooltip();
         window.Backbone.on('change:' + this.options.type + 'currentpath', function() {
             self.onCurrentPathChange.apply(self, arguments);
         });
@@ -41,6 +47,11 @@ var FileExplorerToolbarView = Backbone.View.extend({
         this.$child.toolbarSection1 = this.$el.find('#toolbar-section-1');
         this.$child.toolbarSection2 = this.$el.find('#toolbar-section-2');
         this.$child.goToPathInput = this.$el.find('input#file-path-input');
+        this.$child.goToPathButton = this.$el.find('#go-to-path-btn');
+        this.$child.goBackButton = this.$el.find('#go-back-btn');
+        this.$child.addItemButton = this.$el.find('#add-item-btn');
+        this.$child.removeItemButton = this.$el.find('#remove-item-btn');
+        this.$child.moveItemButton = this.$el.find('#move-item-btn');
     },
 
     /**
@@ -48,6 +59,10 @@ var FileExplorerToolbarView = Backbone.View.extend({
      */
     onGoClick: function(event) {
         window.Backbone.trigger('change:' + this.options.type + 'currentpath', this.$child.goToPathInput.val());
+    },
+
+    onGoBackClick: function(event) {
+
     },
 
     onAddItemButtonClick: function(event) {
@@ -67,7 +82,7 @@ var FileExplorerToolbarView = Backbone.View.extend({
                 });
             }
         } else {
-            $.notify('Select file(s) to move', {
+            $.notify('Select file(s) by long click and try', {
                 autoHideDelay: 3 * 1000,
                 className: 'warn',
             });
