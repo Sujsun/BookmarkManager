@@ -62,7 +62,7 @@ var FileExplorerToolbarView = Backbone.View.extend({
     },
 
     onGoBackClick: function(event) {
-
+        window.Backbone.bookmarkRouter.goBack();
     },
 
     onAddItemButtonClick: function(event) {
@@ -74,7 +74,7 @@ var FileExplorerToolbarView = Backbone.View.extend({
         if (selectedItemCollection.length) {
             if (selectedItemCollection.isAllBookmark()) {
                 this.$child.moveItemModal.modal('show');
-                window.Backbone.trigger('change:' + 'move' + 'currentpath', '/root');
+                window.Backbone.trigger('change:movecurrentpath', 'root');
             } else {
                 $.notify('Folder cannot be moved', {
                     autoHideDelay: 3 * 1000,

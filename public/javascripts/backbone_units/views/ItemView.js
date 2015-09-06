@@ -90,7 +90,14 @@ var ItemView = Backbone.View.extend({
         switch (this.model.get('type')) {
             case 'folder':
                 if (this.options.enableFolderOpen) {
-                    window.Backbone.trigger('change:' + this.options.type + 'currentpath', this.model.get('path') + '/' + this.model.get('name'));
+                    var navigateTo = this.model.get('path') + '/' + this.model.get('name');
+                    if (this.options.type === 'browse') {
+                        window.Backbone.bookmarkRouter.navigate(navigateTo, {
+                            trigger: true
+                        });
+                    } else {
+                        window.Backbone.trigger('change:' + this.options.type + 'currentpath', navigateTo);
+                    }
                 }
                 break;
             case 'bookmark':

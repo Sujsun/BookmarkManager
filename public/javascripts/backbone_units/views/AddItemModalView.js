@@ -87,7 +87,7 @@ var AddItemModalView = Backbone.View.extend({
                 } else {
                     errorMessage = 'Failed. Please try again...';
                 }
-                self.$.addItemToolbarButton.notify(errorMessage, {
+                self.$child.addItemToolbarButton.notify(errorMessage, {
                     autoHideDelay: 3 * 1000,
                     className: 'error',
                 });
