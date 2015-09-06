@@ -42,6 +42,12 @@ var ItemView = Backbone.View.extend({
         window.Backbone.on('change:selectmode', function() {
             self.onSelectModeChange.apply(self, arguments);
         });
+        this.model.on('change:name', function() {
+            self.onNameChange.apply(self, arguments);
+        });
+        this.model.on('change:icon', function() {
+            self.onIconChange.apply(self, arguments);
+        });
         this.$child.fileItemWrapper.tooltip({
             html: true,
             placement: 'bottom',
@@ -57,6 +63,8 @@ var ItemView = Backbone.View.extend({
     findElements: function() {
         this.$child || (this.$child = {});
         this.$child.fileItemWrapper = this.$el.find('#file-item-wrapper');
+        this.$child.fileItemName = this.$el.find('#file-item-name');
+        this.$child.fileIconImg = this.$el.find('img#file-icon-img');
     },
 
     /**
@@ -81,6 +89,14 @@ var ItemView = Backbone.View.extend({
 
     onSelectModeChange: function(selectMode) {
         this.currentSelectMode = selectMode;
+    },
+
+    onNameChange: function(model) {
+        this.$child.fileItemName.html(this.model.get('name'));
+    },
+
+    onIconChange: function(model) {
+        this.$child.fileIconImg.attr('src', this.model.get('icon'));
     },
 
     /**

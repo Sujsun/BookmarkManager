@@ -1,4 +1,4 @@
-var AddItemModalView = Backbone.View.extend({
+var ItemDetailsModalView = Backbone.View.extend({
 
     el: '#add-item-modal',
 
@@ -56,8 +56,6 @@ var AddItemModalView = Backbone.View.extend({
     onTypeClick: function(event) {
         var $target = $(event.target);
         var type = $target.attr('value');
-        this.$child.itemTypeDropdown.attr('value', type);
-        this.$child.itemTypeButtonText.html($target.html());
         this.format(type);
     },
 
@@ -71,25 +69,28 @@ var AddItemModalView = Backbone.View.extend({
 
     onAddButtonClick: function() {
         var self = this;
-        var itemModel = this.get();
+        var itemModel = this.getModel();
         if (itemModel) {
             itemModel.save().done(function(model) {
                 self.collection.add(model);
                 // self.$.addItemToolbarButton.notify('Created ' + model.type + ' "' + model.name + '"', {
-                $('#file-explorer-ul #' + model._id + ' #file-item-wrapper').notify('Created ' + model.type + ' "' + model.name + '"', {
+                $('#file-explorer-browse #file-explorer-ul #' + itemModel.get('_id') + ' #file-item-wrapper').notify('Saved ' + itemModel.get('type') + ' "' + itemModel.get('name') + '"', {
                     autoHideDelay: 2 * 1000,
                     className: 'success',
                 });
             }).fail(function(data) {
-                var errorMessage;
+                var errorMessage, notifyClassName = 'error';
                 if (data && data.responseJSON && data.responseJSON.code === 11000) {
                     errorMessage = 'Already exist. Try with different name.';
+                } else if (data.message) {
+                    errorMessage = data.message;
+                    notifyClassName = 'warn';
                 } else {
                     errorMessage = 'Failed. Please try again...';
                 }
-                self.$child.addItemToolbarButton.notify(errorMessage, {
+                $.notify(errorMessage, {
                     autoHideDelay: 3 * 1000,
-                    className: 'error',
+                    className: notifyClassName,
                 });
             });
             self.$el.modal('hide');
@@ -101,7 +102,7 @@ var AddItemModalView = Backbone.View.extend({
     },
 
     onAddModalHidden: function() {
-        this.resetView();
+        this.reset();
     },
 
     onCurrentPathChange: function(path) {
@@ -112,13 +113,16 @@ var AddItemModalView = Backbone.View.extend({
      * Helpers
      */
     format: function(type) {
+        var typeName = 'Unknown';
         switch (type) {
             case 'folder':
                 this.currentFormat = type;
+                typeName = 'Folder';
                 this.$child.addItemContentDiv.slideUp();
                 break;
             case 'bookmark':
                 this.currentFormat = type;
+                typeName = 'Bookmark';
                 this.$child.addItemContentDiv.slideDown();
                 break;
             default:
@@ -126,21 +130,42 @@ var AddItemModalView = Backbone.View.extend({
                     message: 'Unknown add item format. Given format value:' + type,
                 });
         }
+        this.$child.itemTypeDropdown.attr('value', type);
+        this.$child.itemTypeButtonText.html(typeName);
+    },
+
+    setModel: function(model) {
+        var self = this;
+        this.model = model;
+        this.setModelInView();
+    },
+
+    setModelInView: function() {
+        this.$child.itemNameInput.val(this.model.get('name'));
+        this.format(this.model.get('type'));
+        if (this.model.get('type') !== 'folder') {
+            this.$child.itemContentInput.val(this.model.get('content'));
+        }
     },
 
     /**
      * Get the model object from view values
      */
-    get: function() {
+    getModel: function() {
+        var returnModel = this.model || new ItemModel();
         var name = this.$child.itemNameInput.val().trim();
         var content = this.$child.itemContentInput.val().trim();
-        var item = {
-            type: this.currentFormat,
-            path: this.currentPath,
-        };
+        // if (returnModel.get('path') !== this.currentPath) {
+        returnModel.set('path', this.currentPath);
+        // }
+        // if (returnModel.get('type') !== this.currentFormat) {
+        returnModel.set('type', this.currentFormat);
+        // }
         var isSuccess = true;
         if (name) {
-            item.name = name;
+            // if (returnModel.get('name') !== name) {
+            returnModel.set('name', name);
+            // }
         } else {
             this.$child.itemNameInput.addClass('error');
             this.$child.itemNameInput.notify('Provide label name', {
@@ -151,7 +176,9 @@ var AddItemModalView = Backbone.View.extend({
         }
         if (this.currentFormat === 'bookmark') {
             if (content && this.validateURL(content)) {
-                item.content = content;
+                // if (returnModel.get('content') !== content) {
+                returnModel.set('content', content);
+                // }
             } else {
                 this.$child.itemContentInput.addClass('error');
                 this.$child.itemContentInput.notify('Provide valid URL', {
@@ -161,7 +188,12 @@ var AddItemModalView = Backbone.View.extend({
                 isSuccess = false;
             }
         }
-        return isSuccess ? new ItemModel(item) : undefined;
+        return isSuccess ? returnModel : undefined;
+    },
+
+    reset: function() {
+        delete this.model;
+        this.resetView();
     },
 
     /**

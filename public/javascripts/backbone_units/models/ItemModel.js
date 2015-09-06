@@ -9,10 +9,21 @@ var ItemModel = Backbone.Model.extend({
     },
 
     initialize: function() {
-        this.set('icon', this.getIcon());
+        this.onModelTypeChange();
         if (this.get('created')) {
             this.set('createdDateReadable', window.moment(this.get('created')).format('MMM D, YYYY'));
         }
+        this.attachEvents();
+    },
+
+    attachEvents: function() {
+        var self = this;
+        this.on('change', function() {
+            self.onModelChange.apply(self, arguments);
+        });
+        this.on('change:type', function() {
+            self.onModelTypeChange.apply(self, arguments);
+        });
     },
 
     move: function(path) {
@@ -28,19 +39,51 @@ var ItemModel = Backbone.Model.extend({
     },
 
     /**
+     * Event Handlers
+     */
+    onModelChange: function(model) {
+        this.changedProperties || (this.changedProperties = {});
+        var changedAttributes = this.changedAttributes();
+        for (var key in changedAttributes) {
+            this.changedProperties[key] = changedAttributes[key];
+        }
+    },
+
+    onModelTypeChange: function() {
+        this.set('icon', this.getIcon());
+    },
+
+    /**
      * Overriding default save method to change the payload structure
      */
     save: function(options) {
         var self = this;
         options || (options = {});
         if (!self.isNew()) {
-            options.data || (options.data = {});
-            options.data.ids = self.get('_id');
-            options.data.updateProp = self.changedAttributes();
-            options.data = window.JSON.stringify(options.data);
-            options.contentType = 'application/json';
+            if (self.changedProperties) {
+                options.data || (options.data = {});
+                options.data.ids = self.get('_id');
+                options.data.updateProp = self.changedProperties;
+                options.data = window.JSON.stringify(options.data);
+                options.contentType = 'application/json';
+            } else {
+                return $.Deferred().reject(Error('No changes to save')).promise();
+            }
         }
-        return Backbone.Model.prototype.save.call(this, undefined, options);
+        return Backbone.Model.prototype.save.call(this, undefined, options).done(function() {
+            this.changedProperties = {};
+        });
+    },
+
+    /**
+     * Overriding Parse Method to adopt to PUT response
+     */
+    parse: function(response, options) {
+        var returnResponse = response;
+        if (!options.add) {
+            returnResponse = undefined;
+        }
+        return returnResponse;
     },
 
     /**

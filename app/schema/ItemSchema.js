@@ -28,7 +28,8 @@ var ItemSchema = new Schema({
  */
 ItemSchema.index({
     name: 1,
-    path: 1
+    path: 1,
+    isDeleted: 1,
 }, {
     unique: true
 });

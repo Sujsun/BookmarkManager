@@ -1,44 +1,5 @@
 (function(root, $) {
 
-    var itemCollection = new ItemCollection();
-    window.coll = itemCollection;
-
-    var addItemModalView = new AddItemModalView({
-        collection: itemCollection,
-        type: 'browse',
-    });
-
-    var itemListView = new ItemListView({
-        el: '#file-explorer-main #file-explorer-ul',
-        collection: itemCollection,
-        type: 'browse',
-    });
-
-    window.Backbone.browseItemListView = itemListView;
-
-    var fileExplorerToolbarView = new FileExplorerToolbarView({
-        type: 'browse',
-    });
-
-    var moveFileExplorerToolbarView = new FileExplorerToolbarView({
-        el: '#move-item-modal #file-explorer-move #file-explorer-toolbar',
-        type: 'move',
-    });
-
-    window.tool = fileExplorerToolbarView;
-
-    window.mtool = moveFileExplorerToolbarView;
-
-    window.moveItemListView = new ItemListView({
-        el: '#file-explorer-move #file-explorer-ul',
-        collection: new ItemCollection(),
-        type: 'move',
-    });
-
-    var moveItemModalView = new MoveItemModalView();
-
-    window.Backbone.trigger('change:selectmode', 'single');
-
     var BookmarkRouter = Backbone.Router.extend({
 
         initialize: function() {
@@ -70,10 +31,51 @@
             }
         },
 
-        createCollection: function() {},
+        createCollection: function() {
+            this.collection || (this.collection = {});
+            this.collection.browseItemCollection = new ItemCollection();
+            this.collection.moveItemCollection = new ItemCollection();
+        },
 
-        createViews: function() {},
+        createViews: function() {
+            this.view || (this.view = {});
 
+            /**
+             * Contruct Views for Browsing
+             */
+            var type = 'browse';
+            this.view.itemDetailsModalView = new ItemDetailsModalView({
+                collection: this.collection.browseItemCollection,
+                type: type,
+            });
+            this.view.moveItemModalView = new MoveItemModalView();
+            this.createFolderViews(type);
+
+            /**
+             * Contruct Views for Moving
+             */
+            type = 'move';
+            this.createFolderViews(type);
+        },
+
+        /**
+         * Create Folder Views
+         */
+        createFolderViews: function(type) {
+            this.view[type + 'FileExplorerToolbarView'] = new FileExplorerToolbarView({
+                el: '#file-explorer-toolbar-' + type,
+                type: type,
+            });
+            this.view[type + 'ItemListView'] = new ItemListView({
+                el: '#file-explorer-' + type + ' #file-explorer-ul',
+                collection: this.collection[type + 'ItemCollection'],
+                type: type,
+            });
+        },
+
+        /**
+         * Goes back from current path
+         */
         goBack: function() {
             this.navigate(this.removeLastDirFromUrl(Backbone.history.getFragment()), {
                 trigger: true,
@@ -81,8 +83,15 @@
         },
 
         removeLastDirFromUrl: function(url) {
-            var regexpString = url.substr(url.lastIndexOf('/')) + '$';
-            return url.replace(new RegExp(regexpString), '');
+            var indexOfSlash = url.lastIndexOf('/'),
+                resultString = '';
+            if (indexOfSlash !== -1) {
+                var regexpString = url.substr(indexOfSlash) + '$';
+                resultString = url.replace(new RegExp(regexpString), '');
+            } else {
+                resultString = url;
+            }
+            return resultString;
         },
 
     });
@@ -99,6 +108,8 @@
             });
         }
     });
+
+    window.Backbone.trigger('change:selectmode', 'single');
 
     Backbone.history.start();
 })(this, $ || jQuery);

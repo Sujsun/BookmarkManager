@@ -20,12 +20,12 @@
 		<div class="row">
 			
 			<!-- File Explorer - Starts -->
-			<div id="file-explorer-main" class="file-explorer col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div id="file-explorer-browse" class="file-explorer col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						
 						<!-- File Explorer Toolbar - Starts -->
-						<div id="file-explorer-toolbar" class="file-explorer-toolbar row">
+						<div id="file-explorer-toolbar-browse" class="file-explorer-toolbar row">
 		
 							<div id="toolbar-section-1" class="toolbar-section-1 toolbar-section col-lg-8 col-md-8 col-sm-8 col-xs-12">
 								<div class="input-group">
@@ -50,9 +50,14 @@
 									</button>
 								</div>
 
-								<button id="move-item-btn" type="button" class="single-btn btn btn-default" type="button" data-toggle="tooltip" data-placement="bottom" title="Move">
-									<i class="fa fa-sign-in"></i>
-								</button>
+								<div class="btn-group">
+									<button id="edit-item-btn" type="button" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" title="Edit">
+										<i class="fa fa-pencil-square-o"></i>
+									</button>
+									<button id="move-item-btn" type="button" class="btn btn-default" aria-label="Right Align" data-toggle="tooltip" data-placement="bottom" title="Move">
+										<i class="fa fa-sign-in"></i>
+									</button>
+								</div>
 
 							</div>
 
@@ -103,7 +108,7 @@
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								
 								<!-- File Explorer Toolbar - Starts -->
-								<div id="file-explorer-toolbar" class="file-explorer-toolbar row">
+								<div id="file-explorer-toolbar-move" class="file-explorer-toolbar row">
 									
 									<div id="toolbar-section-1" class="toolbar-section-1 toolbar-section col-lg-8 col-md-8 col-sm-8 col-xs-12">
 										<div class="input-group">
@@ -162,7 +167,7 @@
 	                </span>
 	                </button>
 	                <h4 class="modal-title" id="add-item-modal-title">
-	                    Add
+	                    Details
 	                </h4>
 	            </div>
 	            <div class="modal-body">
@@ -192,7 +197,7 @@
 	                	Cancel
 	                </button>
 	                <button id="add-item-modal-btn" type="button" class="add-item-btn btn btn-primary">
-	                	Add
+	                	Save
 	                </button>
 	            </div>
 	        </div>
@@ -245,7 +250,7 @@
 	<script src="javascripts/backbone_units/models/ItemModel.js"></script>
 	<script src="javascripts/backbone_units/collections/ItemCollection.js"></script>
 	<script src="javascripts/backbone_units/views/FileExplorerToolbarView.js"></script>
-	<script src="javascripts/backbone_units/views/AddItemModalView.js"></script>
+	<script src="javascripts/backbone_units/views/ItemDetailsModalView.js"></script>
 	<script src="javascripts/backbone_units/views/ItemView.js"></script>
 	<script src="javascripts/backbone_units/views/ItemListView.js"></script>
 	<script src="javascripts/backbone_units/views/MoveItemModalView.js"></script>

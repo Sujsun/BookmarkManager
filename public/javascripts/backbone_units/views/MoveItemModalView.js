@@ -38,7 +38,7 @@ var MoveItemModalView = Backbone.View.extend({
      */
     onMoveHereButtonClick: function() {
         var self = this;
-        var selectedItemCollection = Backbone.browseItemListView.getSelected();
+        var selectedItemCollection = window.Backbone.bookmarkRouter.view.browseItemListView.getSelected();
         selectedItemCollection.move(this.currentMovePath).done(function() {
             $.notify('Moved successfully', {
                 autoHideDelay: 2 * 1000,

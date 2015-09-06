@@ -25,16 +25,19 @@ var FileExplorerToolbarView = Backbone.View.extend({
         'click #remove-item-btn': 'onRemoveItemButtonClick',
         'click #go-to-path-btn': 'onGoClick',
         'click #go-back-btn': 'onGoBackClick',
+        'click #edit-item-btn': 'onEditItemButtonClick',
         'keypress #file-path-input': 'onFilePathInputKeypress',
     },
 
     attachEvents: function() {
         var self = this;
-        this.$child.goBackButton.tooltip();
-        this.$child.goToPathButton.tooltip();
-        this.$child.addItemButton.tooltip();
-        this.$child.removeItemButton.tooltip();
-        this.$child.moveItemButton.tooltip();
+        $([this.$child.goBackButton,
+            this.$child.goToPathButton,
+            this.$child.addItemButton,
+            this.$child.removeItemButton,
+            this.$child.moveItemButton,
+            this.$child.editItemButton
+        ]).tooltip();
         window.Backbone.on('change:' + this.options.type + 'currentpath', function() {
             self.onCurrentPathChange.apply(self, arguments);
         });
@@ -52,6 +55,7 @@ var FileExplorerToolbarView = Backbone.View.extend({
         this.$child.addItemButton = this.$el.find('#add-item-btn');
         this.$child.removeItemButton = this.$el.find('#remove-item-btn');
         this.$child.moveItemButton = this.$el.find('#move-item-btn');
+        this.$child.editItemButton = this.$el.find('#edit-item-btn');
     },
 
     /**
@@ -70,7 +74,7 @@ var FileExplorerToolbarView = Backbone.View.extend({
     },
 
     onMoveItemButtonClick: function(event) {
-        var selectedItemCollection = Backbone.browseItemListView.getSelected();
+        var selectedItemCollection = window.Backbone.bookmarkRouter.view.browseItemListView.getSelected();
         if (selectedItemCollection.length) {
             if (selectedItemCollection.isAllBookmark()) {
                 this.$child.moveItemModal.modal('show');
@@ -89,6 +93,19 @@ var FileExplorerToolbarView = Backbone.View.extend({
         }
     },
 
+    onEditItemButtonClick: function() {
+        var selectedItemCollection = window.Backbone.bookmarkRouter.view.browseItemListView.getSelected();
+        if (selectedItemCollection.length === 1) {
+            this.$child.addItemModal.modal('show');
+            window.Backbone.bookmarkRouter.view.itemDetailsModalView.setModel(selectedItemCollection.at(0));
+        } else {
+            $.notify('Select one item to edit', {
+                autoHideDelay: 3 * 1000,
+                className: 'warn',
+            });
+        }
+    },
+
     onFilePathInputKeypress: function(event) {
         if (event.keyCode === 13) {
             this.onGoClick(event);
@@ -101,7 +118,7 @@ var FileExplorerToolbarView = Backbone.View.extend({
     },
 
     onRemoveItemButtonClick: function() {
-        var selectedItemCollection = Backbone.browseItemListView.getSelected();
+        var selectedItemCollection = window.Backbone.bookmarkRouter.view.browseItemListView.getSelected();
         if (selectedItemCollection.length) {
             selectedItemCollection.deleteAll().done(function() {
                 $.notify('Deleted successfully', {
