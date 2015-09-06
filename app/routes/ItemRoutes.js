@@ -7,4 +7,5 @@ var mongoose = require('mongoose'),
 
 module.exports = Service({
     Model: ItemModel,
+    permanentDelete: true,
 }).router;

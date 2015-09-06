@@ -9,7 +9,6 @@ var ItemCollection = Backbone.Collection.extend({
         return self.fetch({
             data: $.param({
                 path: path,
-                isDeleted: 'false',
             }),
         });
     },
@@ -60,10 +59,13 @@ var ItemCollection = Backbone.Collection.extend({
         options.data = collection.toJSON();
         options.data = window.JSON.stringify(options.data);
         $.ajax(options).done(function() {
-            for (var index in models) {
-                models[index].destroy();
+            var modelsLength = models.length;
+            for (var index = 0; index < modelsLength; index++) {
+                models[0].destroy();
             }
             deferred.resolve();
+        }).fail(function() {
+            deferred.reject.apply(deferred, arguments);
         });
         return deferred;
     },

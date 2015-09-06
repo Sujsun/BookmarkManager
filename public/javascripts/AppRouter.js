@@ -14,8 +14,7 @@
 
         attachEvents: function() {
             var self = this;
-            this.on('route:all', function() {
-                alert('Route changed!');
+            this.on('route:default', function() {
                 self.onAllRoute.apply(self, arguments);
             });
         },
@@ -98,18 +97,6 @@
 
     var bookmarkRouter = new BookmarkRouter();
     Backbone.bookmarkRouter = bookmarkRouter;
-    bookmarkRouter.on('route:default', function() {
-        var currentRoutePath = Backbone.history.getFragment();
-        if (currentRoutePath) {
-            window.Backbone.trigger('change:browsecurrentpath', currentRoutePath);
-        } else {
-            this.navigate('root', {
-                trigger: true
-            });
-        }
-    });
-
-    window.Backbone.trigger('change:selectmode', 'single');
 
     Backbone.history.start();
 

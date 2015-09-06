@@ -80,7 +80,7 @@ var ItemListView = Backbone.View.extend({
             delete this.selectedItemViews[itemView.model.get('_id')];
         }
         if (!Object.keys(this.selectedItemViews).length) {
-            window.Backbone.trigger('change:selectmode', 'single');
+            window.Backbone.bookmarkRouter.view.browseItemListView.selectMode = 'single';
         }
     },
 

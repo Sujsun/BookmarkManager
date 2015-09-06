@@ -125,6 +125,11 @@ var FileExplorerToolbarView = Backbone.View.extend({
                     autoHideDelay: 2 * 1000,
                     className: 'success',
                 });
+            }).fail(function() {
+                $.notify('Failed to delete', {
+                    autoHideDelay: 3 * 1000,
+                    className: 'error',
+                });
             });
         } else {
             $.notify('Select file(s) to delete', {

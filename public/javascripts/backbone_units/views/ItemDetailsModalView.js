@@ -73,8 +73,7 @@ var ItemDetailsModalView = Backbone.View.extend({
         if (itemModel) {
             itemModel.save().done(function(model) {
                 self.collection.add(model);
-                // self.$.addItemToolbarButton.notify('Created ' + model.type + ' "' + model.name + '"', {
-                $('#file-explorer-browse #file-explorer-ul #' + itemModel.get('_id') + ' #file-item-wrapper').notify('Saved ' + itemModel.get('type') + ' "' + itemModel.get('name') + '"', {
+                $('#file-explorer-browse #file-explorer-ul #' + (model._id || itemModel.get('_id')) + ' #file-item-wrapper').notify('Saved ' + itemModel.get('type') + ' "' + itemModel.get('name') + '"', {
                     autoHideDelay: 2 * 1000,
                     className: 'success',
                 });

@@ -17,10 +17,6 @@ var ItemSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    isDeleted: {
-        type: Boolean,
-        default: false
-    },
 });
 
 /**
@@ -29,7 +25,6 @@ var ItemSchema = new Schema({
 ItemSchema.index({
     name: 1,
     path: 1,
-    isDeleted: 1,
 }, {
     unique: true
 });

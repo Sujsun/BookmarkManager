@@ -13,8 +13,6 @@ var ItemView = Backbone.View.extend({
 
     template: window.document.getElementById('file-item-template'),
 
-    currentSelectMode: 'single',
-
     initialize: function(options) {
         this.options = options || {};
         _.defaults(this.options, {
@@ -39,9 +37,6 @@ var ItemView = Backbone.View.extend({
 
     attachEvents: function() {
         var self = this;
-        window.Backbone.on('change:selectmode', function() {
-            self.onSelectModeChange.apply(self, arguments);
-        });
         this.model.on('change:name', function() {
             self.onNameChange.apply(self, arguments);
         });
@@ -71,7 +66,7 @@ var ItemView = Backbone.View.extend({
      * Event Handlers
      */
     onIconClick: function() {
-        switch (this.currentSelectMode) {
+        switch (window.Backbone.bookmarkRouter.view.browseItemListView.selectMode) {
             case 'single':
                 this.open();
                 break;
@@ -85,10 +80,6 @@ var ItemView = Backbone.View.extend({
         if (this.options.enableSelect) {
             this.toggleSelect();
         }
-    },
-
-    onSelectModeChange: function(selectMode) {
-        this.currentSelectMode = selectMode;
     },
 
     onNameChange: function(model) {
@@ -145,9 +136,7 @@ var ItemView = Backbone.View.extend({
         this.isSelected = true;
         this.$child.fileItemWrapper.addClass('selected');
         this.trigger('change:select', this.isSelected, this);
-        if (this.currentSelectMode !== 'multiple') {
-            window.Backbone.trigger('change:selectmode', 'multiple');
-        }
+        window.Backbone.bookmarkRouter.view.browseItemListView.selectMode = 'multiple';
     },
 
     unselect: function() {

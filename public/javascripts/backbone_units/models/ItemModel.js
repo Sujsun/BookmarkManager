@@ -4,9 +4,7 @@ var ItemModel = Backbone.Model.extend({
 
     idAttribute: '_id',
 
-    defaults: {
-        isDeleted: 'false',
-    },
+    defaults: {},
 
     initialize: function() {
         this.onModelTypeChange();
