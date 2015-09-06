@@ -112,4 +112,7 @@
     window.Backbone.trigger('change:selectmode', 'single');
 
     Backbone.history.start();
+
+    $.notify('Instruction: Long press to select', 'warn');
+
 })(this, $ || jQuery);
